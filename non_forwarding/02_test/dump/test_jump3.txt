@@ -1,0 +1,67 @@
+    # --- 1. Chuẩn bị Thanh ghi Cơ sở (Base Register x8) ---
+    # x8 phải trỏ đến địa chỉ hợp lệ (Target_1) để JALR hoạt động
+    addi    x5, x0, 1       # x5 = 1 (Giá trị ban đầu)
+    
+    # AUIPC để lấy địa chỉ PC hiện tại (0x008)
+    # Lấy x8 = PC + (0 << 12) = 0x004
+    auipc   x8, 0           
+    
+    # Cộng offset để x8 trỏ đến Target_1 (0x018)
+    # x8 = 0x004 + 0x14 = 0x018 (Địa chỉ của Target_1)
+    addi    x8, x8, 0x14    
+
+    # --- 2. Chuỗi JALR Liên tiếp (JALR Chain) ---
+    # Kiểm tra WAW Hazard trên x1 (ghi đè liên tục) và Control Hazard
+    # Lệnh được thực thi: JALR 1 (0x00C) -> JALR 2 (0x010) -> JALR 3 (0x014)
+    
+    # JALR 1: Nhảy đến Target_1 (0x018). x1 = 0x010.
+    jalr    x1, x8, 0x04     
+    
+    # JALR 2: Nhảy đến Chain_2 (0x030). x1 = 0x014. (Ghi đè x1)
+    jalr    x1, x8, 0x1C    
+    
+    # JALR 3: Nhảy đến Chain_3 (0x03C). x1 = 0x018. (Ghi đè x1)
+    jalr    x1, x8, 0x24    
+
+	j END
+
+    # --- 3. Các Target (Code bị nhảy đến) ---
+Target_1:
+    # Lệnh này bị thực thi sau JALR 1
+    addi    x5, x5, 10      # x5 = 1 + 10 = 11.
+    
+    # Quay về x1 (0x010) để tiếp tục chuỗi JALR
+    jalr    x0, x1, 0       
+
+# Các đoạn code này bị bỏ qua trong luồng chính
+Target_2:
+    addi    x5, x5, 127     # Bị bỏ qua
+    jalr    x0, x1, 0
+
+Target_3:
+    addi    x5, x5, 56   # Bị bỏ qua
+    jalr    x0, x1, 0
+
+Chain_2:
+    # Lệnh này bị thực thi sau JALR 2
+    addi    x5, x5, 100     # x5 = 11 + 100 = 111.
+    
+    # Quay về x1 (0x014) để tiếp tục chuỗi JALR
+    jalr    x0, x1, 0       
+
+Chain_3:
+    # Lệnh này bị thực thi sau JALR 3
+    addi    x5, x5, 250    # x5 = 111 + 250 = 361.
+    
+    # Quay về x1 (0x018) để tiếp tục luồng code
+    # (Tạo vòng lặp vô hạn nếu không sửa lỗi logic)
+    jalr    x0, x1, 0       
+
+END:
+    # --- 4. Điểm Kết thúc và Kiểm tra ---
+    addi    x5, x5, 250  
+    lui x10, 0x10000
+    sw x5, 0(x10)
+    # Vòng lặp dừng chương trình
+    halt:
+    j halt

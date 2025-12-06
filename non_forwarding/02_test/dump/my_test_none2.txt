@@ -1,0 +1,29 @@
+.global _boot
+.text
+
+_boot:   
+	lui x13, 0x10003
+    lui x14, 0x10002
+	lui x5, 0x10004
+	lui x2, 0x10000
+    addi x16, x0, 64
+    add x3, x0, x2
+	addi x1, x0, 10
+	addi x1, x1, 5
+    sw x1, 0(x3)
+    lui x10, 0x10000
+    lw x4, 0(x10)
+    addi x4, x1, 4
+    sw x4, 0(x2)
+    lw x12, 0(x2)
+    sw x12, 0(x13)
+    sw x4, 0(x5)
+    lw x15, 0(x5)
+    sw x16, 0(x5)
+    sw x12, 0(x5)
+    sw x15, 0(x14)
+
+.data
+variable:
+	.word 0xdeadbeef
+                    

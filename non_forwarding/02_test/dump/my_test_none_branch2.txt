@@ -1,0 +1,14 @@
+lui x20, 0x10000
+addi x10, x0, 10
+addi x11, x0, 10
+bne x10, x11, Target
+
+add x11, x11, x11
+sw x11, 0(x20)
+
+Here:
+j Here
+
+Target:
+addi x10, x10, 2
+sw x10, 0(x20)

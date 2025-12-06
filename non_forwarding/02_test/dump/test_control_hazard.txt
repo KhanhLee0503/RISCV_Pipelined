@@ -1,0 +1,76 @@
+#----------------------------------------------------
+# RISC-V ASSEMBLY: KIỂM TRA HAZARD CƠ BẢN
+# Output I/O Addresses:
+# 0x1000_0000 (x30)
+# 0x1000_1000 (x31)
+# 0x1000_2000 (x29)
+#----------------------------------------------------
+
+# 1. KHỞI TẠO ĐỊA CHỈ I/O VÀ DỮ LIỆU BAN ĐẦU
+    lui x30, 0x10000   # x30 <- 0x10000000
+    addi x30, x30, 0   # Hoàn tất x30
+
+    addi x10, x0, 10   # x10 <- 10
+    addi x11, x0, 20   # x11 <- 20
+    
+    # Ghi giá trị 10 vào 0x1000_0000 cho test LW
+    sw x10, 0(x30)
+
+#----------------------------------------------------
+# 2. TEST DATA HAZARD
+#----------------------------------------------------
+
+    lw x12, 0(x30)     
+    add x13, x12, x10  
+    sw x13, 0(x30)     # Xuất x13 (20) ra 0x1000_0000
+
+    addi x14, x0, 5    # x14 <- 5
+    add x15, x10, x11  
+    sub x16, x15, x14  
+
+    # Ghi kết quả ra 0x1000_1000
+    lui x31, 0x10001
+    addi x31, x31, 0
+    sw x16, 0(x31)     # Xuất x16 (25) ra 0x1000_1000
+
+
+    addi x17, x0, 100  
+    addi x18, x0, 50   
+    sub x19, x17, x18  
+    addi x20, x19, 10  
+
+    # Ghi kết quả ra 0x1000_2000
+    lui x29, 0x10002
+    addi x29, x29, 0
+    sw x20, 0(x29)     # Xuất x20 (60) ra 0x1000_2000
+
+#----------------------------------------------------
+# 3. TEST CONTROL HAZARD (JAL & JALR)
+#----------------------------------------------------
+
+
+    jal x1, JAL_TARGET # JAL_OFFSET (nhảy tới lệnh tại 0x14 sau khi tính offset)
+
+  
+    addi x10, x10, 1   # N+1: Bị FLUSH
+
+
+    addi x10, x10, 2   # N+2: Bị FLUSH
+
+
+JAL_TARGET:
+    addi x12, x1, 100  # Data Hazard: x1 được ghi ở WB
+    sw x12, 4(x30)     # Xuất x12 (100 + PC_JAL_FLUSH_ADDR) ra 0x1000_0004
+
+    jalr x1, 4(x11) 
+
+
+    addi x10, x10, 3   # N+1: Bị FLUSH
+
+JALR_TARGET:
+    addi x10, x10, 100 # Lệnh đích (PC=0x24). x10 <- 10 + 100 = 110
+
+#----------------------------------------------------
+# 4. DỪNG CHƯƠNG TRÌNH
+END_PROGRAM:
+    jal x0, END_PROGRAM

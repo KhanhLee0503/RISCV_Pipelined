@@ -1,0 +1,16 @@
+lui x5, 65536
+lui x10, 0x10000
+sw x5, 0(x10)
+
+addi x6, x0, 15
+addi x7, x0, 10
+addi x8, x0, 0x18
+
+jalr x1, x8, 0x0C
+sw x6, 0(x10)
+
+here:
+j here
+
+sw x7, 0(x10)
+jalr x0, x1, 0

@@ -1,0 +1,445 @@
+
+LUI x31, 0x10004		# LCD Address
+
+LUI x24, 0x10010		# Switches Address
+
+LUI x22, 0x10000		# LED red Address
+
+
+
+LUI x28, 0x80000
+ADDI x28, x28, 0x400        # On = 1, En = 1, RS = 0, RW = 0 | Write Commmand
+
+LUI x29, 0x80000
+ADDI x29, x29, 0x600        # On = 1, En = 1, RS = 1, RW = 0 | Write Character
+
+ADDI x18, x0, 0x0A
+
+HERE:
+	LUI x21, 0x10002		# SEGMENT Address
+	JAL x1, LCD_INIT	
+
+	LW x10, 0(x24)
+	SW x10, 0(x22)
+
+	ANDI x19, x10, 0x100
+	BNE x19, x0, CAL
+
+	ADDI x20, x0, 0xC6
+	SLLI x20, x20, 0x08
+	ADDI x20, x20, 0x89
+	SLLI x20, x20, 0x08
+	ADDI x20, x20, 0x88
+	SLLI x20, x20, 0x08
+	ADDI x20, x20, 0xC0
+	
+	SW x20, 0(x21)
+
+	ADDI x19, x0, -1
+	LUI x21, 0x10003
+	SW x19, 0(x21)
+	
+	ADDI x17, x0, 0x80
+	JAL  x2, WRITECOM
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4B	#Write "K"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x54	#Write "T"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4D	#Write "M"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x54	#Write "T"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x31	#Write "1"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x30	#Write "0"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x44	#Write "D"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x49	#Write "I"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x45	#Write "E"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4D	#Write "M"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0xC0
+	JAL  x2, WRITECOM
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4B	#Write "K"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x48	#Write "H"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x41	#Write "A"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4E	#Write "N"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x48	#Write "H"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x50	#Write "P"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x48	#Write "H"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x41	#Write "A"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADDI x17, x0, 0x54	#Write "T"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	JAL x0, HERE
+
+CAL:
+	ADDI x20, x0, 0xFF
+	SLLI x20, x20, 0x08
+	ADDI x20, x20, 0xC6
+	SLLI x20, x20, 0x08
+	ADDI x20, x20, 0x88
+	SLLI x20, x20, 0x08
+	ADDI x20, x20, 0xC7
+	SW x20, 0(x21)
+
+	ADDI x19, x0, -1
+	LUI x21, 0x10003
+	SW x19, 0(x21)
+
+	ANDI x11, x10, 0xF0
+	SRLI x11, x11, 0x04
+
+	ANDI x10, x10, 0x0F
+
+	JAL x1, PRINT_LINE1
+	
+	JAL x4, MULTIPLY
+	JAL x5, CONVERT_3DIGIT
+
+	JAL x1, PRINT_LINE2
+
+	JAL x0, HERE
+
+PRINT_LINE1:
+	ADDI x17, x0, 0x80
+	JAL  x2, WRITECOM
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x49	#Write "I"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4E	#Write "N"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x31	#Write "1"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x3A	#Write ":"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	
+	ADD x17, x0, x10
+	BLT x17, x18, NUMBER_DIGIT_IN1	#Compare input switch value
+		
+	ADDI x17, x17, 0x37
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	JAL x0, IN2
+	
+NUMBER_DIGIT_IN1:
+	ADDI x17, x17, 0x30 
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+IN2:
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADDI x17, x0, 0x49	#Write "I"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4E	#Write "N"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x32	#Write "2"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x3A	#Write ":"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	
+	ADD x17, x0, x11
+	BLT x17, x18, NUMBER_DIGIT_IN2	#Compare input switch value
+		
+	ADDI x17, x17, 0x37
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	JALR x0, x1, 0
+	
+NUMBER_DIGIT_IN2:
+	ADDI x17, x17, 0x30 
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	JALR x0, x1, 0
+
+
+			
+PRINT_LINE2:
+	ADDI x17, x0, 0xC0
+	JAL  x2, WRITECOM
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x52	#Write "R"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x45	#Write "E"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x53	#Write "S"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x55	#Write "U"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x4C	#Write "L"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x54	#Write "T"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x3A	#Write ":"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADDI x17, x0, 0x20	#Write "SPACE"
+	JAL  x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	
+	
+	ADD x17, x0, x6 
+	ADDI x17, x17, 0x30	#Print Hundreds
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+
+	ADD x17, x0, x7 
+	ADDI x17, x17, 0x30	#Print Tens
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	
+	ADD x17, x0, x8 
+	ADDI x17, x17, 0x30	#Print Units
+	JAL x2, WRITECHAR
+	JAL x3, DELAY_2MS
+	JAL x3, DELAY_2MS
+	JAL x3, DELAY_2MS
+	
+	JALR x0, x1, 0		
+
+
+LCD_INIT:
+   LCD_INIT:
+    # --- Chờ LCD khởi động ổn định (Tối thiểu 15ms, 3x DELAY_2MS là đủ) ---
+    JAL x3, DELAY_2MS
+    JAL x3, DELAY_2MS
+    JAL x3, DELAY_2MS
+
+    # --- Thiết lập 8-bit, 2 dòng, font 5x8 (Function Set: 0x38) ---
+    ADDI x17, x0, 0x38
+    JAL x2, WRITECOM
+    JAL x3, DELAY_2MS
+
+    # --- Bật hiển thị, tắt con trỏ (Display On/Off: 0x0C) ---
+    ADDI x17, x0, 0x0C
+    JAL x2, WRITECOM
+    JAL x3, DELAY_2MS
+
+    # --- Xóa màn hình (Clear Display: 0x01) ---
+    ADDI x17, x0, 0x01
+    JAL x2, WRITECOM
+    JAL x3, DELAY_2MS
+    
+    # --- Thiết lập tự tăng địa chỉ (Entry Mode Set: 0x06) ---
+    ADDI x17, x0, 0x06
+    JAL x2, WRITECOM
+    JAL x3, DELAY_2MS
+
+    # --- Đưa con trỏ về đầu dòng 1 (Set DDRAM Address: 0x80) ---
+    ADDI x17, x0, 0x80
+    JAL x2, WRITECOM
+    JAL x3, DELAY_2MS
+
+    JALR x0, x1, 0
+
+WRITECOM:
+	# Gui byte lenh ra cac chan data (D0->D7)
+	ADD x16, x17, x0	
+
+	ADD x30, x28, x16
+	SW x30, 0(x31)
+
+	XORI x30, x30, 0x400
+	SW x30, 0(x31)
+
+	JALR x0, x2, 0
+
+WRITECHAR:
+	# Gui ma ASCII ra cac chan data (D0->D7)
+	ADD x16, x17, x0
+
+	ADD x30, x29, x16
+	SW x30, 0(x31)
+
+	XORI x30, x30, 0x400
+	SW x30, 0(x31)
+
+	JALR x0, x2, 0
+
+DELAY_2MS:
+	ADDI x25, x0, 10      # N1 = 10
+	DL1:	
+		ADDI x26, x0, 50    # N2 = 100
+		DL2:
+			ADDI x27, x0, 25     # N3 = 27
+			DL3:
+				ADDI x27, x27, -1
+				BNE x27, x0, DL3 	
+		
+			ADDI x26, x26, -1	
+			BNE x26, x0, DL2
+
+		ADDI x25, x25, -1
+		BNE x25, x0, DL1
+
+	JALR x0, x3, 0
+
+
+MULTIPLY:    
+    /* x12 (Result): Ket qua (Khoi tao = 0) */
+    ADD x12, x0, x0        
+    
+    loop_mul:
+        /* BGE x11, x0, end_mul (Neu x11 < 0 thi nhay, nhung ta chi dung so duong) */
+        /* Beq x11, x0, end_mul (Dung BNE de nhay khi x11 != 0) */
+        bne x11, x0, continue_loop 
+        
+        /* Neu x11 == 0, nhay ve end_mul */
+        jal x0, end_mul 
+        
+    continue_loop:
+        /* x12 = x12 + x10 (Result = Result + A) */
+        add x12, x12, x10  
+        
+        /* x11 = x11 - 1 (Giam bien dem) */
+        addi x11, x11, -1  
+        
+        /* Quay lai dau vong lap */
+        jal x0, loop_mul
+        
+end_mul:
+	jalr x0, x4, 0
+
+
+
+CONVERT_3DIGIT:
+    # --- Khởi tạo dữ liệu ---
+    addi x10, x0, 100     # x10 = 100
+    addi x11, x0, 10      # x11 = 10
+
+    addi x6, x0, 0        # x6 = 0 (hàng trăm)
+    addi x7, x0, 0        # x7 = 0 (hàng chục)
+    addi x8, x0, 0        # x8 = 0 (hàng đơn vị)
+
+    # --- Tách hàng trăm ---
+loop_hundred:
+    blt  x12, x10, done_hundred   # nếu x12 < 100 thì thoát
+    sub  x12, x12, x10             # x12 -= 100
+    addi x6, x6, 1               # x6 += 1 (đếm số lần trừ)
+    jal  x0, loop_hundred        # lặp lại
+
+done_hundred:
+    # --- Tách hàng chục ---
+loop_ten:
+    blt  x12, x11, done_ten       # nếu x12 < 10 thì thoát
+    sub  x12, x12, x11             # x12 -= 10
+    addi x7, x7, 1               # x7 += 1
+    jal  x0, loop_ten            # lặp lại
+
+done_ten:
+    # --- Hàng đơn vị còn lại chính là x5 ---
+    add  x8, x12, x0              # x8 = x12 (hàng đơn vị)
+
+    jalr x0, x5, 0
+ 

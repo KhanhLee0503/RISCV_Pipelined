@@ -1,0 +1,15 @@
+addi x1, x0, 5
+addi x2, x0, 10
+addi x3, x0, 20
+addi x4, x0, 30
+        
+        add x1, x1, x2
+        add x1, x1, x3
+        add x1, x1, x4
+        lui x10, 0x10000
+        nop
+        nop
+        nop
+        nop
+        nop
+sw x1, 0(x10)

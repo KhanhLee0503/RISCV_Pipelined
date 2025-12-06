@@ -1,0 +1,33 @@
+#----------------------------------------------------
+# RISC-V Base Assembly: Multiplication (Repeated Addition)
+# x30: Address Base (0x1000_0000)
+# x10: Counter (5)
+# x11: Value to add (7)
+# x12: Result (0 -> 35)
+#----------------------------------------------------
+
+# 1. KHỞI TẠO ĐỊA CHỈ ĐÍCH (0x1000_0000)
+    lui x30, 0x10000   # Load Upper Immediate: x30 <- 0x10000000
+    addi x30, x30, 0   # Add Immediate: x30 <- x30 + 0
+
+# 2. KHỞI TẠO SỐ HẠNG VÀ KẾT QUẢ
+    addi x10, x0, 5    # Counter: x10 <- 5
+    addi x11, x0, 7    # Value: x11 <- 7
+    addi x12, x0, 0    # Result: x12 <- 0
+
+# 3. THUẬT TOÁN CỘNG LẶP (Loop 5 lần)
+LOOP_START:
+    beq x10, x0, LOOP_END  # Branch Equal: Nếu x10 = 0 (đã đủ 5 lần), nhảy đến LOOP_END
+    
+    add x12, x12, x11      # Add: x12 <- x12 + x11 (Kết quả += 7)
+    
+    addi x10, x10, -1      # Add Immediate: x10 <- x10 - 1 (Giảm bộ đếm)
+    
+    jal x0, LOOP_START     # Jump and Link (với offset): Quay lại LOOP_START (thay cho j)
+
+LOOP_END:
+    # 4. LƯU KẾT QUẢ VÀO BỘ NHỚ
+    sw x12, 0(x30)         # Store Word: MEM[0x10000000] <- x12 (35)
+
+# 5. DỪNG CHƯƠNG TRÌNH
+    jal x0, 0              # Vòng lặp vô tận
