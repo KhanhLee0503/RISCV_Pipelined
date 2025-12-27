@@ -1,0 +1,13 @@
+lui x10, 0x10000
+
+addi x2, x0, 138
+
+addi x1, x0, 5
+
+addi x3, x1, 10
+
+add x4, x3, x2
+
+sub x5, x4, x3
+
+sw x5,0(x10)
