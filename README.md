@@ -8,7 +8,7 @@ In this significant milestone, students are assigned the responsibility of desig
 ## Specification
 ### Top Level Module: pipelined.sv
 ### I/O Ports:
-<img width="962" height="514" alt="image" src="https://github.com/user-attachments/assets/12364588-d152-4629-8aad-1ddc7f1ca0d4" />
+<img width="1000" height="514" alt="image" src="https://github.com/user-attachments/assets/12364588-d152-4629-8aad-1ddc7f1ca0d4" />
 
 ## Pipelining
 - Enable and Reset signals of each stage are critical for a proper pipelined processor. Any issues at first arise from their improper control.
