@@ -19,9 +19,36 @@ In this significant milestone, students are assigned the responsibility of desig
 
 ## Datapath
 ### ALU
-- ALU (Arithmetic Logic Unit) là lõi tính toán của bộ xử lý, thực hiện các phép toán số học và logic trong tập lệnh RV32I: ADD, SUB, SLT/SLTU, AND, OR, XOR, SLL, SRL, SRA, . . . ALU nhận hai toán hạng operand_a, operand_b và mã điều khiển alu_op từ Control Unit, trả về giá trị alu_data cho datapath.
-- Trong thiết kế này, ALU được chia thành các module con:
+ALU (Arithmetic Logic Unit) là lõi tính toán của bộ xử lý, thực hiện các phép toán số học và logic trong tập lệnh RV32I: ADD, SUB, SLT/SLTU, AND, OR, XOR, SLL, SRL, SRA, . . . ALU nhận hai toán hạng operand_a, operand_b và mã điều khiển alu_op từ Control Unit, trả về giá trị alu_data cho datapath. Trong thiết kế này, ALU được chia thành các module con:
 - Bộ cộng CLA 32-bit.
 - Bộ dịch Barrel Shifter 32-bit.
 - Comparator 32-bit (số không dấu và số có dấu).
 - Khối BRC phục vụ lệnh nhánh.
+
+#### Bộ cộng CLA 32-bit
+Input:
+- A[31:0] – toán hạng cộng thứ nhất.
+– B[31:0] – toán hạng cộng thứ hai.
+– C_in – carry vào (1 bit), dùng cho phép cộng chuỗi hoặc cho phép SUB (bù
+hai).
+
+Output:
+- S[31:0] – kết quả phép cộng.
+– C_out – cờ nhớ ra (1 bit).
+
+<img width="1163" height="699" alt="image" src="https://github.com/user-attachments/assets/a483082c-d7e3-4dae-bdc8-14fb44e3e3fe" />
+
+#### Bộ dịch Barrel Shifter 32-bit
+Input:
+– A[31:0] – số 32-bit cần dịch.
+– shift[4:0] – số bit cần dịch (0–31).
+– dir – hướng dịch (0: trái, 1: phải).
+– arith – chọn dịch logic hay số học (0: logic, 1: số học)
+
+Output:
+– S[31:0] – kết quả sau dịch
+<img width="530" height="322" alt="image" src="https://github.com/user-attachments/assets/5480faa7-83d4-4708-9cfc-0f68fabc5753" />
+<img width="666" height="382" alt="image" src="https://github.com/user-attachments/assets/0f721446-6727-42cd-8968-4d1566d8e39e" />
+
+
+
