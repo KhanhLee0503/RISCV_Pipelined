@@ -58,7 +58,7 @@ với bit dấu và một mux 4–1.
 Ba tín hiệu vào dạng cascade:
 - i_AeqB: cho biết ở tất cả các bit cao hơn hiện tại thì A = B.
 - i_AltB: cho biết ở các bit cao hơn đã quyết định A < B.
-- i_AgtB: cho biết ở các bit cao hơn đã quyết định A > B
+- i_AgtB: cho biết ở các bit cao hơn đã quyết định A > B.
 
 Ngõ ra của khối gồm ba tín hiệu tương ứng:
 - o_AeqB: từ MSB xuống tới nibble hiện tại vẫn A = B.
