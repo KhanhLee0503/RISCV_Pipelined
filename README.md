@@ -37,6 +37,7 @@ Output:
 
 <img width="1163" height="699" alt="image" src="https://github.com/user-attachments/assets/a483082c-d7e3-4dae-bdc8-14fb44e3e3fe" />
 
+--- 
 #### Bộ dịch Barrel Shifter 32-bit
 Input:
 - In[31:0]: số 32-bit cần dịch
@@ -106,7 +107,7 @@ Dựa trên funct3 của lệnh:
 
 ***=> Đường quyết định nhánh đi từ regfile → comparator/BRC → Control → mux chọn PC. Vì toàn bộ đường này là tổ hợp, BRC được thiết kế gọn, tái sử dụng comparator nhanh, giúp giảm độ trễ và đảm bảo chu kỳ clock đủ nhỏ cho kiến trúc single-cycle.***
 
-**Khối ALU Control**
+#### Khối ALU Control
 Mục đích và giao diện ALU Control nhận các trường mã lệnh chi tiết và sinh ra mã điều khiển 4-bit cho ALU:
 
 Ngõ vào:
@@ -118,8 +119,8 @@ Ngõ vào:
 Ngõ ra:
 - Opcode[3:0] : mã điều khiển nội bộ cho ALU (ADD, SUB, AND, OR, SLL, SRL, SRA, SLT, SLTU, XOR).
   
-<img width="505" height="242" alt="image" src="https://github.com/user-attachments/assets/c686d99e-cf79-49bc-8db7-eb28c67cef55" />
+<img width="1000" height="350" alt="image" src="https://github.com/user-attachments/assets/c686d99e-cf79-49bc-8db7-eb28c67cef55" />
 
-<img width="766" height="492" alt="image" src="https://github.com/user-attachments/assets/89986ad9-7b02-49d6-b6c8-874af819390f" />
+<img width="1000" height="492" alt="image" src="https://github.com/user-attachments/assets/89986ad9-7b02-49d6-b6c8-874af819390f" />
 
 
