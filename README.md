@@ -53,7 +53,7 @@ Output:
 - Comparator số không dấu dựa trên khối cơ bản comparator_4bit mắc cascade
 - Comparator số có dấu được xây dựng trên kết quả so sánh không dấu kết hợp
 với bit dấu và một mux 4–1.
-<img width="1000" height="246" alt="image" src="https://github.com/user-attachments/assets/015c78f2-e445-47f4-83c3-2a452f85c346" />
+<img width="1000" height="328" alt="image" src="https://github.com/user-attachments/assets/015c78f2-e445-47f4-83c3-2a452f85c346" />
 
 Ba tín hiệu vào dạng cascade:
 - i_AeqB: cho biết ở tất cả các bit cao hơn hiện tại thì A = B.
@@ -81,5 +81,25 @@ Nếu signA ̸= signB:
 - signA = 1, signB = 0 (A âm, B dương): luôn luôn A < B (signed).
 - signA = 0, signB = 1 (A dương, B âm): luôn luôn A > B (signed).
 
-<img width="524" height="328" alt="image" src="https://github.com/user-attachments/assets/983dff28-9e8d-41a7-95e8-a0ce854060f0" />
+<img width="1000" height="328" alt="image" src="https://github.com/user-attachments/assets/983dff28-9e8d-41a7-95e8-a0ce854060f0" />
 
+#### Branch Comparision Unit
+- BRC là module chuyên xử lý điều kiện nhánh. Thay vì để Control phải so sánh toàn bộ 32 bit, BRC nhận hai toán hạng **rs1**, **rs2** và tín hiệu chọn kiểu so sánh rồi trả ra hai cờ **br_less** và **br_equal**. Control chỉ cần kết hợp hai cờ này với mã lệnh nhánh để quyết định PC có nhảy hay không.
+
+Ngõ vào:
+- i_rs1_data[31:0], i_rs2_data[31:0].
+- i_br_un (0: so sánh signed, 1: so sánh unsigned).
+
+Ngõ ra:
+- o_br_less, o_br_equal
+
+Cách sử dụng comparator:
+- **br_equal** = 1 khi **rs1_data == rs2_data**.
+- Nếu **i_br_un** = 0 ⇒ **br_less** = kết quả so sánh signed.
+- Nếu **i_br_un** = 1 ⇒ **br_less** = kết quả so sánh unsigned.
+
+Dựa trên funct3 của lệnh:
+- **BEQ** nhảy khi **br_equal** = 1.
+- **BNE** nhảy khi **br_equal**= 0.
+- **BLT/BLTU** nhảy khi **br_less** = 1.
+- **BGE/BGEU** nhảy khi **br_less** = 0
