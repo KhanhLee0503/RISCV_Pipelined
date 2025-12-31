@@ -104,4 +104,4 @@ Dựa trên funct3 của lệnh:
 - **BLT/BLTU** nhảy khi **br_less** = 1.
 - **BGE/BGEU** nhảy khi **br_less** = 0
 
-=> Đường quyết định nhánh đi từ regfile → comparator/BRC → Control → mux chọn PC. Vì toàn bộ đường này là tổ hợp, BRC được thiết kế gọn, tái sử dụng comparator nhanh, giúp giảm độ trễ và đảm bảo chu kỳ clock đủ nhỏ cho kiến trúc single-cycle.
+***=> Đường quyết định nhánh đi từ regfile → comparator/BRC → Control → mux chọn PC. Vì toàn bộ đường này là tổ hợp, BRC được thiết kế gọn, tái sử dụng comparator nhanh, giúp giảm độ trễ và đảm bảo chu kỳ clock đủ nhỏ cho kiến trúc single-cycle.***
