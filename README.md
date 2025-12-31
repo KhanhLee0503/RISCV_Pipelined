@@ -70,7 +70,7 @@ Nếu i_AeqB = 1 ⇒ nibble hiện tại quyết định quan hệ giữa A và 
 - Nếu A[3 : 0] < B[3 : 0]: o_AgtB = 0, o_AltB = 1, o_AeqB = 0.
 - Nếu A[3 : 0] = B[3 : 0]: o_AgtB = 0, o_AltB = 0, o_AeqB = 1 (trạng thái “vẫn bằng nhau”, chuyển tiếp xuống nibble thấp hơn).
 
-Đối với số có dấu (two’s complement), bit dấu signA = A[31], signB = B[31] phải được xét riêng:
+**Đối với số có dấu (two’s complement), bit dấu signA = A[31], signB = B[31] phải được xét riêng:**
 
 Nếu signA = signB:
 - Cả hai cùng dương (00): quan hệ signed giống hệt kết quả không dấu.
@@ -80,3 +80,6 @@ Nếu signA = signB:
 Nếu signA ̸= signB:
 - signA = 1, signB = 0 (A âm, B dương): luôn luôn A < B (signed).
 - signA = 0, signB = 1 (A dương, B âm): luôn luôn A > B (signed).
+
+<img width="524" height="328" alt="image" src="https://github.com/user-attachments/assets/983dff28-9e8d-41a7-95e8-a0ce854060f0" />
+
