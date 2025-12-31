@@ -49,5 +49,22 @@ Output:
 <img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/5480faa7-83d4-4708-9cfc-0f68fabc5753" />
 <img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/0f721446-6727-42cd-8968-4d1566d8e39e" />
 
+#### Comparator 32bit
+- Comparator số không dấu dựa trên khối cơ bản comparator_4bit mắc cascade
+- Comparator số có dấu được xây dựng trên kết quả so sánh không dấu kết hợp
+với bit dấu và một mux 4–1.
+<img width="564" height="246" alt="image" src="https://github.com/user-attachments/assets/015c78f2-e445-47f4-83c3-2a452f85c346" />
+Ba tín hiệu vào dạng cascade:
+- i_AeqB: cho biết ở tất cả các bit cao hơn hiện tại thì A = B.
+- i_AltB: cho biết ở các bit cao hơn đã quyết định A < B.
+- i_AgtB: cho biết ở các bit cao hơn đã quyết định A > B
 
+Ngõ ra của khối gồm ba tín hiệu tương ứng:
+- o_AeqB: từ MSB xuống tới nibble hiện tại vẫn A = B.
+- o_AltB: từ MSB xuống tới nibble hiện tại kết luận A < B.
+- o_AgtB: từ MSB xuống tới nibble hiện tại kết luận A > B.
 
+Nếu i_AeqB = 1 ⇒ nibble hiện tại quyết định quan hệ giữa A và B:
+– Nếu A[3 : 0] > B[3 : 0]: o_AgtB = 1, o_AltB = 0, o_AeqB = 0.
+– Nếu A[3 : 0] < B[3 : 0]: o_AgtB = 0, o_AltB = 1, o_AeqB = 0.
+– Nếu A[3 : 0] = B[3 : 0]: o_AgtB = 0, o_AltB = 0, o_AeqB = 1 (trạng thái “vẫn bằng nhau”, chuyển tiếp xuống nibble thấp hơn).
