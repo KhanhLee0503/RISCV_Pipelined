@@ -105,3 +105,21 @@ Dựa trên funct3 của lệnh:
 - **BGE/BGEU** nhảy khi **br_less** = 0
 
 ***=> Đường quyết định nhánh đi từ regfile → comparator/BRC → Control → mux chọn PC. Vì toàn bộ đường này là tổ hợp, BRC được thiết kế gọn, tái sử dụng comparator nhanh, giúp giảm độ trễ và đảm bảo chu kỳ clock đủ nhỏ cho kiến trúc single-cycle.***
+
+**Khối ALU Control**
+Mục đích và giao diện ALU Control nhận các trường mã lệnh chi tiết và sinh ra mã điều khiển 4-bit cho ALU:
+
+Ngõ vào:
+- funct3[2:0] : trường funct3 của lệnh.
+- funct7 : bit thứ 5 của trường funct7 (bit 30 của instr).
+- ALU_op[1:0]: mã điều khiển thô từ Control Unit (00, 01, 10).
+- opcode_bit5: bit 5 của opcode (phân biệt R-type 0110011 và I-type 0010011).
+
+Ngõ ra:
+- Opcode[3:0] : mã điều khiển nội bộ cho ALU (ADD, SUB, AND, OR, SLL, SRL, SRA, SLT, SLTU, XOR).
+  
+<img width="505" height="242" alt="image" src="https://github.com/user-attachments/assets/c686d99e-cf79-49bc-8db7-eb28c67cef55" />
+
+<img width="766" height="492" alt="image" src="https://github.com/user-attachments/assets/89986ad9-7b02-49d6-b6c8-874af819390f" />
+
+
