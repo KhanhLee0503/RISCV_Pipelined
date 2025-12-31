@@ -53,7 +53,8 @@ Output:
 - Comparator số không dấu dựa trên khối cơ bản comparator_4bit mắc cascade
 - Comparator số có dấu được xây dựng trên kết quả so sánh không dấu kết hợp
 với bit dấu và một mux 4–1.
-<img width="564" height="246" alt="image" src="https://github.com/user-attachments/assets/015c78f2-e445-47f4-83c3-2a452f85c346" />
+<img width="1000" height="246" alt="image" src="https://github.com/user-attachments/assets/015c78f2-e445-47f4-83c3-2a452f85c346" />
+
 Ba tín hiệu vào dạng cascade:
 - i_AeqB: cho biết ở tất cả các bit cao hơn hiện tại thì A = B.
 - i_AltB: cho biết ở các bit cao hơn đã quyết định A < B.
