@@ -39,13 +39,12 @@ Output:
 
 #### Bộ dịch Barrel Shifter 32-bit
 Input:
-- A[31:0]: số 32-bit cần dịch
-- shift[4:0]: số bit cần dịch (0–31).
-- dir: hướng dịch (0: trái, 1: phải).
-- arith: chọn dịch logic hay số học (0: logic, 1: số học)
+- In[31:0]: số 32-bit cần dịch
+- ShAm[4:0]: số bit cần dịch (0–31).
+- ShiftSel: hướng dịch (0: trái, 1: phải).
 
 Output:
-- S[31:0]: kết quả sau dịch
+- OUT[31:0]: kết quả sau dịch
 
 <img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/5480faa7-83d4-4708-9cfc-0f68fabc5753" />
 <img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/0f721446-6727-42cd-8968-4d1566d8e39e" />
