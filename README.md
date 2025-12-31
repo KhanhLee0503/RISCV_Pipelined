@@ -50,6 +50,7 @@ Output:
 <img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/5480faa7-83d4-4708-9cfc-0f68fabc5753" />
 <img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/0f721446-6727-42cd-8968-4d1566d8e39e" />
 
+---
 #### Comparator 32bit
 - Comparator số không dấu dựa trên khối cơ bản comparator_4bit mắc cascade
 - Comparator số có dấu được xây dựng trên kết quả so sánh không dấu kết hợp
@@ -84,6 +85,7 @@ Nếu signA ̸= signB:
 
 <img width="1000" height="328" alt="image" src="https://github.com/user-attachments/assets/983dff28-9e8d-41a7-95e8-a0ce854060f0" />
 
+---
 #### Branch Comparision Unit
 - BRC là module chuyên xử lý điều kiện nhánh. Thay vì để Control phải so sánh toàn bộ 32 bit, BRC nhận hai toán hạng **rs1**, **rs2** và tín hiệu chọn kiểu so sánh rồi trả ra hai cờ **br_less** và **br_equal**. Control chỉ cần kết hợp hai cờ này với mã lệnh nhánh để quyết định PC có nhảy hay không.
 
@@ -107,6 +109,7 @@ Dựa trên funct3 của lệnh:
 
 ***=> Đường quyết định nhánh đi từ regfile → comparator/BRC → Control → mux chọn PC. Vì toàn bộ đường này là tổ hợp, BRC được thiết kế gọn, tái sử dụng comparator nhanh, giúp giảm độ trễ và đảm bảo chu kỳ clock đủ nhỏ cho kiến trúc single-cycle.***
 
+---
 #### Khối ALU Control
 Mục đích và giao diện ALU Control nhận các trường mã lệnh chi tiết và sinh ra mã điều khiển 4-bit cho ALU:
 
